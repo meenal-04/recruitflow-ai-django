@@ -155,10 +155,10 @@ Candidate applies for a job
 
 ### 1. Clone the repository
 
-Replace the URL below with your actual GitHub repository URL.
+Replace the URL below with actual GitHub repository URL.
 
 ```bash
-git clone https://github.com/<your-username>/<repo-name>.git
+git clone https://github.com/meenal-04/Django-project.git
 cd RecruitFlow
 ```
 
