@@ -158,7 +158,7 @@ Candidate applies for a job
 Replace the URL below with actual GitHub repository URL.
 
 ```bash
-git clone https://github.com/meenal-04/Django-project.git
+git clone https://github.com/meenal-04/recruitflow-ai-django.git
 cd RecruitFlow
 ```
 
