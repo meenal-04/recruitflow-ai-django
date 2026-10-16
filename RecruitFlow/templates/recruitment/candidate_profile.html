@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Candidate Profile - RecruitFlow</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <style>
+
+        body {
+            background-color: #f5f7fa;
+        }
+
+        .profile-card {
+            max-width: 700px;
+            margin: 40px auto;
+            border: none;
+            border-radius: 14px;
+        }
+
+        .profile-picture {
+            width: 140px;
+            height: 140px;
+            object-fit: cover;
+        }
+
+        .placeholder-picture {
+            width: 140px;
+            height: 140px;
+            font-size: 50px;
+        }
+
+        .btn {
+            border-radius: 8px;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- NAVBAR -->
+
+<nav class="navbar navbar-dark bg-dark">
+
+    <div class="container">
+
+        <a
+            href="{% url 'candidate_dashboard' %}"
+            class="navbar-brand fw-bold text-decoration-none"
+        >
+            RecruitFlow
+        </a>
+
+        <a
+            href="{% url 'candidate_dashboard' %}"
+            class="btn btn-outline-light btn-sm"
+        >
+            ← Dashboard
+        </a>
+
+    </div>
+
+</nav>
+
+
+
+<div class="container">
+
+
+    <div class="card shadow-sm profile-card">
+
+        <div class="card-body p-4">
+
+
+            <h2 class="text-center mb-1">
+                My Profile
+            </h2>
+
+            <p class="text-center text-muted mb-4">
+                Keep your profile updated for better job matching.
+            </p>
+
+
+            <!-- MESSAGES -->
+
+            {% if messages %}
+
+                {% for message in messages %}
+
+                    <div
+                        class="alert
+                        {% if message.tags == 'success' %}
+                            alert-success
+                        {% elif message.tags == 'error' %}
+                            alert-danger
+                        {% else %}
+                            alert-info
+                        {% endif %}
+                        alert-dismissible fade show"
+                        role="alert"
+                    >
+
+                        {{ message }}
+
+                        <button
+                            type="button"
+                            class="btn-close"
+                            data-bs-dismiss="alert"
+                            aria-label="Close"
+                        ></button>
+
+                    </div>
+
+                {% endfor %}
+
+            {% endif %}
+
+
+
+            <!-- PROFILE PICTURE -->
+
+            <div class="text-center mb-4">
+
+                {% if candidate.profile_picture %}
+
+                    <img
+                        src="{{ candidate.profile_picture.url }}"
+                        alt="Candidate Profile"
+                        class="rounded-circle shadow-sm profile-picture"
+                    >
+
+                {% else %}
+
+                    <div
+                        class="rounded-circle bg-secondary text-white
+                               d-flex align-items-center
+                               justify-content-center
+                               mx-auto
+                               placeholder-picture"
+                    >
+                        👤
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+
+
+            <!-- FORM -->
+
+            <form
+                method="POST"
+                enctype="multipart/form-data"
+            >
+
+                {% csrf_token %}
+
+
+                <!-- PROFILE PICTURE FIELD -->
+
+                <div class="mb-3">
+
+                    <label class="form-label fw-semibold">
+                        Profile Picture
+                    </label>
+
+                    {{ form.profile_picture }}
+
+                    {% if form.profile_picture.errors %}
+
+                        <div class="text-danger small">
+                            {{ form.profile_picture.errors }}
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+
+
+                <!-- PHONE -->
+
+                <div class="mb-3">
+
+                    <label class="form-label fw-semibold">
+                        Phone Number
+                    </label>
+
+                    {{ form.phone }}
+
+                    {% if form.phone.errors %}
+
+                        <div class="text-danger small">
+                            {{ form.phone.errors }}
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+
+
+                <!-- SKILLS -->
+
+                <div class="mb-3">
+
+                    <label class="form-label fw-semibold">
+                        Skills
+                    </label>
+
+                    {{ form.skills }}
+
+                    {% if form.skills.errors %}
+
+                        <div class="text-danger small">
+                            {{ form.skills.errors }}
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+
+
+                <!-- EXPERIENCE -->
+
+                <div class="mb-3">
+
+                    <label class="form-label fw-semibold">
+                        Experience
+                    </label>
+
+                    {{ form.experience }}
+
+                    {% if form.experience.errors %}
+
+                        <div class="text-danger small">
+                            {{ form.experience.errors }}
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+
+
+                <!-- RESUME -->
+
+                <div class="mb-4">
+
+                    <label class="form-label fw-semibold">
+                        Resume
+                    </label>
+
+                    {{ form.resume }}
+
+                    {% if candidate.resume %}
+
+                        <div class="mt-2">
+
+                            <small class="text-muted">
+                                Current resume:
+                            </small>
+
+                            <a
+                                href="{{ candidate.resume.url }}"
+                                target="_blank"
+                                class="ms-1"
+                            >
+                                View Resume
+                            </a>
+
+                        </div>
+
+                    {% endif %}
+
+                    {% if form.resume.errors %}
+
+                        <div class="text-danger small">
+                            {{ form.resume.errors }}
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+
+
+                <!-- SAVE -->
+
+                <button
+                    type="submit"
+                    class="btn btn-primary w-100"
+                >
+                    Save Profile
+                </button>
+
+            </form>
+
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+</body>
+
+</html>

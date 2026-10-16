@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>RecruitFlow - AI-Assisted Recruitment</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <style>
+
+        body {
+            background: #f5f7fb;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background: #111827;
+        }
+
+        .hero {
+            padding: 80px 20px 50px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 700;
+        }
+
+        .hero p {
+            max-width: 700px;
+            margin: 20px auto;
+            color: #6b7280;
+            font-size: 1.1rem;
+        }
+
+        .role-card {
+            border: none;
+            border-radius: 16px;
+            transition: 0.2s;
+            height: 100%;
+        }
+
+        .role-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .role-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        .role-card .btn {
+            border-radius: 10px;
+            padding: 10px 25px;
+        }
+
+        .feature-section {
+            margin-top: 70px;
+            padding: 50px 20px;
+            background: white;
+        }
+
+        .feature-box {
+            text-align: center;
+            padding: 20px;
+        }
+
+        footer {
+            padding: 25px;
+            text-align: center;
+            color: #6b7280;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- NAVBAR -->
+
+<nav class="navbar navbar-dark">
+
+    <div class="container">
+
+        <a class="navbar-brand fw-bold"
+           href="{% url 'home' %}">
+
+            RecruitFlow
+
+        </a>
+
+        <span class="text-light">
+            AI-Assisted Recruitment Platform
+        </span>
+
+    </div>
+
+</nav>
+
+
+<!-- HERO -->
+
+<section class="hero">
+
+    <div class="container">
+
+        <h1>
+            Smarter Recruitment.
+            <br>
+            Better Hiring.
+        </h1>
+
+        <p>
+            RecruitFlow brings candidates, recruiters and interviewers
+            together in one streamlined recruitment platform with
+            AI-assisted insights.
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- ROLE SELECTION -->
+
+<section>
+
+    <div class="container">
+
+        <h3 class="text-center mb-4">
+            Choose your role
+        </h3>
+
+
+        <div class="row g-4 justify-content-center">
+
+
+            <!-- CANDIDATE -->
+
+            <div class="col-md-4">
+
+                <div class="card role-card shadow-sm">
+
+                    <div class="card-body text-center p-4">
+
+                        <div class="role-icon">
+                            👤
+                        </div>
+
+                        <h4>
+                            Candidate
+                        </h4>
+
+                        <p class="text-muted">
+
+                            Discover suitable opportunities,
+                            apply for jobs, track applications
+                            and attend scheduled interviews.
+
+                        </p>
+
+                        <a href="{% url 'candidate_login' %}"
+                           class="btn btn-primary">
+
+                            Candidate Login
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- RECRUITER -->
+
+            <div class="col-md-4">
+
+                <div class="card role-card shadow-sm">
+
+                    <div class="card-body text-center p-4">
+
+                        <div class="role-icon">
+                            🏢
+                        </div>
+
+                        <h4>
+                            Recruiter
+                        </h4>
+
+                        <p class="text-muted">
+
+                            Create jobs, review applicants,
+                            manage recruitment pipelines
+                            and schedule interviews.
+
+                        </p>
+
+                        <a href="{% url 'recruiter_login' %}"
+                           class="btn btn-dark">
+
+                            Recruiter Login
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- INTERVIEWER -->
+
+            <div class="col-md-4">
+
+                <div class="card role-card shadow-sm">
+
+                    <div class="card-body text-center p-4">
+
+                        <div class="role-icon">
+                            🎯
+                        </div>
+
+                        <h4>
+                            Interviewer
+                        </h4>
+
+                        <p class="text-muted">
+
+                            View assigned interviews,
+                            evaluate candidates and
+                            submit structured feedback.
+
+                        </p>
+
+                        <a href="{% url 'interviewer_login' %}"
+                           class="btn btn-success">
+
+                            Interviewer Login
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- FEATURES -->
+
+<section class="feature-section">
+
+    <div class="container">
+
+        <h3 class="text-center mb-5">
+            One platform. Complete recruitment workflow.
+        </h3>
+
+
+        <div class="row g-4">
+
+
+            <div class="col-md-3">
+
+                <div class="feature-box">
+
+                    <h5>
+                        📄 Resume Management
+                    </h5>
+
+                    <p class="text-muted">
+                        Manage candidate profiles and resumes
+                        in one place.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-3">
+
+                <div class="feature-box">
+
+                    <h5>
+                        🔄 Recruitment Pipeline
+                    </h5>
+
+                    <p class="text-muted">
+                        Track applications from submission
+                        through interview.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-3">
+
+                <div class="feature-box">
+
+                    <h5>
+                        📅 Interview Management
+                    </h5>
+
+                    <p class="text-muted">
+                        Schedule interviews and manage
+                        interviewer feedback.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-3">
+
+                <div class="feature-box">
+
+                    <h5>
+                        🤖 AI Assistance
+                    </h5>
+
+                    <p class="text-muted">
+                        Support resume-job matching and
+                        interview preparation.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<footer>
+
+    RecruitFlow — AI-Assisted Applicant Tracking & Recruitment Management System
+
+</footer>
+
+
+</body>
+
+</html>

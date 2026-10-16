@@ -1,0 +1,22 @@
+<a
+    href="{% url 'notifications' %}"
+    class="btn btn-dark position-relative"
+    style="font-size:20px;"
+>
+
+    🔔
+
+    {% if unread_notifications_count > 0 %}
+
+        <span
+            class="position-absolute top-0 start-100
+                   translate-middle badge rounded-pill bg-danger"
+        >
+
+            {{ unread_notifications_count }}
+
+        </span>
+
+    {% endif %}
+
+</a>

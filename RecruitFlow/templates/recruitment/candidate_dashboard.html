@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Candidate Dashboard - RecruitFlow</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+</head>
+
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+
+<nav class="navbar navbar-dark bg-dark">
+    <div class="container">
+
+        <span class="navbar-brand fw-bold">
+            RecruitFlow
+        </span>
+
+        <div class="d-flex align-items-center gap-2">
+
+            <a href="{% url 'candidate_profile' %}"
+               class="btn btn-outline-light btn-sm">
+                My Profile
+            </a>
+
+            {% include 'recruitment/notification_bell.html' %}
+
+            <form method="post" action="{% url 'logout' %}" class="mb-0">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger btn-sm">
+                    Logout
+                </button>
+            </form>
+
+        </div>
+
+    </div>
+</nav>
+
+
+<!-- ================= MAIN CONTENT ================= -->
+
+<div class="container mt-5 mb-5">
+
+    <h2>
+        Candidate Dashboard
+    </h2>
+
+    <p class="lead">
+        Welcome, {{ request.user.username }} 👋
+    </p>
+
+
+    <!-- ================= MESSAGES ================= -->
+
+    {% if messages %}
+
+        {% for message in messages %}
+
+            <div class="alert
+                        {% if message.tags == 'success' %}
+                            alert-success
+                        {% elif message.tags == 'error' %}
+                            alert-danger
+                        {% elif message.tags == 'warning' %}
+                            alert-warning
+                        {% else %}
+                            alert-info
+                        {% endif %}
+                        alert-dismissible fade show"
+                 role="alert">
+
+                {{ message }}
+
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="alert"
+                        aria-label="Close">
+                </button>
+
+            </div>
+
+        {% endfor %}
+
+    {% endif %}
+
+
+    <hr>
+
+
+    <!-- ================= MY APPLICATIONS ================= -->
+
+    <h4 class="mb-3">
+        📌 My Applications
+    </h4>
+
+
+    {% for application in applications %}
+
+        <div class="card shadow-sm mb-3">
+
+            <div class="card-body">
+
+                <h5>
+                    {{ application.job.title }}
+                </h5>
+
+                <p class="mb-2">
+
+                    <strong>Status:</strong>
+
+                    {% if application.status == "Selected" %}
+
+                        <span class="badge bg-success">
+                            {{ application.status }}
+                        </span>
+
+                    {% elif application.status == "Rejected" %}
+
+                        <span class="badge bg-danger">
+                            {{ application.status }}
+                        </span>
+
+                    {% elif application.status == "Shortlisted" %}
+
+                        <span class="badge bg-warning text-dark">
+                            {{ application.status }}
+                        </span>
+
+                    {% elif application.status == "Interview" %}
+
+                        <span class="badge bg-info text-dark">
+                            {{ application.status }}
+                        </span>
+
+                    {% else %}
+
+                        <span class="badge bg-primary">
+                            {{ application.status }}
+                        </span>
+
+                    {% endif %}
+
+                </p>
+
+
+                <p class="text-muted mb-0">
+
+                    Applied on:
+                    {{ application.applied_at|date:"d M Y" }}
+
+                </p>
+
+            </div>
+
+        </div>
+
+
+    {% empty %}
+
+        <div class="alert alert-light border">
+
+            You haven't applied for any jobs yet.
+
+        </div>
+
+    {% endfor %}
+
+
+
+    <!-- ================= UPCOMING INTERVIEWS ================= -->
+
+    <h4 class="mt-5 mb-3">
+
+        📅 Upcoming Interviews
+
+    </h4>
+
+
+    {% for interview in upcoming_interviews %}
+
+        <div class="card border-primary shadow-sm mb-3">
+
+            <div class="card-body">
+
+                <h5>
+                    {{ interview.application.job.title }}
+                </h5>
+
+
+                <p>
+                    <strong>Date:</strong>
+
+                    {{ interview.scheduled_at|date:"d M Y" }}
+
+                </p>
+
+
+                <p>
+                    <strong>Time:</strong>
+
+                    {{ interview.scheduled_at|date:"h:i A" }}
+
+                </p>
+
+
+                <p>
+                    <strong>Mode:</strong>
+
+                    {{ interview.mode }}
+
+                </p>
+
+
+                <p>
+
+                    <strong>Status:</strong>
+
+                    <span class="badge bg-success">
+
+                        Interview Scheduled
+
+                    </span>
+
+                </p>
+
+
+                {% if interview.meeting_link %}
+
+                    <a href="{{ interview.meeting_link }}"
+                       target="_blank"
+                       class="btn btn-primary">
+
+                        Join Interview
+
+                    </a>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+
+    {% empty %}
+
+        <div class="alert alert-light border">
+
+            No interviews have been scheduled yet.
+
+        </div>
+
+    {% endfor %}
+
+
+
+    <!-- ================= INTERVIEW HISTORY ================= -->
+
+    <h4 class="mt-5 mb-3">
+
+        📝 Interview History
+
+    </h4>
+
+
+    {% for interview in completed_interviews %}
+
+        <div class="card shadow-sm mb-3">
+
+            <div class="card-body">
+
+                <h5>
+
+                    {{ interview.application.job.title }}
+
+                </h5>
+
+
+                <p>
+
+                    <strong>Interview Date:</strong>
+
+                    {{ interview.scheduled_at|date:"d M Y, h:i A" }}
+
+                </p>
+
+
+                <p>
+
+                    <strong>Mode:</strong>
+
+                    {{ interview.mode }}
+
+                </p>
+
+
+                <span class="badge bg-secondary">
+
+                    Interview Completed
+
+                </span>
+
+            </div>
+
+        </div>
+
+
+    {% empty %}
+
+        <p class="text-muted">
+
+            No completed interviews yet.
+
+        </p>
+
+    {% endfor %}
+
+
+
+    <!-- ================= INTERVIEW FEEDBACK ================= -->
+
+    <h4 class="mt-5 mb-3">
+
+        💬 Interview Feedback
+
+    </h4>
+
+
+    {% for feedback in feedbacks %}
+
+        <div class="card shadow-sm mb-3">
+
+            <div class="card-body">
+
+                <h5>
+
+                    {{ feedback.interview.application.job.title }}
+
+                </h5>
+
+
+                <p class="text-muted">
+
+                    Interview completed on
+
+                    {{ feedback.interview.scheduled_at|date:"d M Y" }}
+
+                </p>
+
+
+                {% if feedback.strengths %}
+
+                    <div class="mb-3">
+
+                        <strong>
+                            Strengths
+                        </strong>
+
+                        <p class="mt-1">
+                            {{ feedback.strengths }}
+                        </p>
+
+                    </div>
+
+                {% endif %}
+
+
+                {% if feedback.technical_feedback %}
+
+                    <div class="mb-3">
+
+                        <strong>
+                            Technical Feedback
+                        </strong>
+
+                        <p class="mt-1">
+                            {{ feedback.technical_feedback }}
+                        </p>
+
+                    </div>
+
+                {% endif %}
+
+
+                {% if feedback.areas_to_explore %}
+
+                    <div class="mb-3">
+
+                        <strong>
+                            Areas to Explore
+                        </strong>
+
+                        <p class="mt-1">
+                            {{ feedback.areas_to_explore }}
+                        </p>
+
+                    </div>
+
+                {% endif %}
+
+
+                {% if feedback.overall_feedback %}
+
+                    <div class="mb-3">
+
+                        <strong>
+                            Overall Feedback
+                        </strong>
+
+                        <p class="mt-1">
+                            {{ feedback.overall_feedback }}
+                        </p>
+
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+
+    {% empty %}
+
+        <div class="alert alert-light border">
+
+            No interview feedback is available yet.
+
+        </div>
+
+    {% endfor %}
+
+
+
+    <!-- ================= RECOMMENDED JOBS ================= -->
+
+    <h4 class="mt-5 mb-3">
+
+        🤖 Recommended for You
+
+    </h4>
+
+
+    {% for item in recommendations %}
+
+        <div class="card shadow-sm mb-3">
+
+            <div class="card-body">
+
+                <h5 class="card-title">
+
+                    {{ item.job.title }}
+
+                </h5>
+
+
+                <p class="text-muted mb-3">
+
+                    📍 {{ item.job.location }}
+
+                    &nbsp; | &nbsp;
+
+                    💼 {{ item.job.experience_required }}
+
+                </p>
+
+
+                <p class="mb-2">
+
+                    <strong>
+                        Why this job matches:
+                    </strong>
+
+                </p>
+
+
+                <div class="mb-3">
+
+                    {% for skill in item.matched_skills %}
+
+                        <span class="badge bg-success me-1">
+
+                            ✓ {{ skill }}
+
+                        </span>
+
+                    {% endfor %}
+
+                </div>
+
+
+                {% if item.missing_skills %}
+
+                    <div class="mt-3 mb-3">
+
+                        <p class="mb-2">
+
+                            <strong>
+                                💡 Skills you could explore:
+                            </strong>
+
+                        </p>
+
+
+                        <p class="text-muted mb-2">
+
+                            Learning these skills could help
+                            strengthen your profile for this role.
+
+                        </p>
+
+
+                        <div>
+
+                            {% for skill in item.missing_skills %}
+
+                                <span class="me-2"
+                                      style="color:#555;
+                                             font-weight:500;">
+
+                                    • {{ skill }}
+
+                                </span>
+
+                            {% endfor %}
+
+                        </div>
+
+                    </div>
+
+                {% endif %}
+
+
+                <a href="{% url 'job_detail' job_id=item.job.id %}"
+                   class="btn btn-primary">
+
+                    View Job
+
+                </a>
+
+            </div>
+
+        </div>
+
+
+    {% empty %}
+
+        <div class="alert alert-light border">
+
+            No matching jobs found right now.
+
+        </div>
+
+    {% endfor %}
+
+
+
+    <!-- ================= BOTTOM ACTIONS ================= -->
+
+    <div class="mt-5 mb-5">
+
+        <a href="{% url 'candidate_profile' %}"
+           class="btn btn-secondary me-2">
+
+            👤 My Profile
+
+        </a>
+
+
+        <a href="{% url 'job_list' %}"
+           class="btn btn-primary">
+
+            🔎 Browse All Jobs
+
+        </a>
+
+    </div>
+
+</div>
+
+
+<!-- Bootstrap JavaScript -->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+
+</body>
+
+</html>
